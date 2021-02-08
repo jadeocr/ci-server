@@ -8,6 +8,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+func gitPull() {
+  cmd := exec.Command("git", "pull")
+  stdout, err := cmd.Output()
+
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  fmt.Println(stdout)
+}
+
 func dockerBuild() {
   cmd := exec.Command("docker-compose", "build")
   stdout, err := cmd.Output()
@@ -31,12 +42,15 @@ func dockerUp() {
 }
 
 func githubController(c echo.Context) error {
+  gitPull()
   dockerBuild()
   dockerUp()
+  fmt.Println("/github called")
   return c.String(http.StatusOK, "ok")
 }
 
 func helloController(c echo.Context) error {
+  fmt.Println("/ called")
   return c.String(http.StatusOK, "Hello, World!")
 }
 
