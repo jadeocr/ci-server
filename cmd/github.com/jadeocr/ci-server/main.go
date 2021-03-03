@@ -41,6 +41,17 @@ func dockerUp() {
   fmt.Println(stdout)
 }
 
+func dockerClean() {
+  cmd := exec.Command("docker", "image", "prune", "-f")
+  stdout, err := cmd.Output()
+
+  if err != nil {
+    log.Fatal(err)
+  }
+
+  fmt.Println(stdout)
+}
+
 func githubController(c echo.Context) error {
   gitPull()
   dockerBuild()
