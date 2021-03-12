@@ -8,59 +8,19 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func gitPull() {
-  cmd := exec.Command("git", "pull")
-  stdout, err := cmd.Output()
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  fmt.Println(stdout)
-}
-
-func dockerBuild() {
-  cmd := exec.Command("docker-compose", "build")
-  stdout, err := cmd.Output()
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  fmt.Println(stdout)
-}
-
-func dockerUp() {
-  cmd := exec.Command("docker-compose", "up", "-d")
-  stdout, err := cmd.Output()
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  fmt.Println(stdout)
-}
-
-func dockerClean() {
-  cmd := exec.Command("docker", "image", "prune", "-f")
-  stdout, err := cmd.Output()
-
-  if err != nil {
-    log.Fatal(err)
-  }
-
-  fmt.Println(stdout)
-}
-
 func githubController(c echo.Context) error {
-  gitPull()
-  dockerBuild()
-  dockerUp()
+  cmd := exec.Command("/bin/sh", "-c", "git pull; docker-compose build; docker-compose up -d; docker image prune -f")
+  err := cmd.Run()
+
+  if err != nil {
+    log.Fatal(err)
+  }
+
   fmt.Println("/github called")
   return c.String(http.StatusOK, "ok")
 }
 
-func helloController(c echo.Context) error {
+func helloController(c echo.Context) error { // for testing
   fmt.Println("/ called")
   return c.String(http.StatusOK, "Hello, World!")
 }
