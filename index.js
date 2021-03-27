@@ -19,7 +19,9 @@ app.get('/', (req, res, next) => {
 })
 
 app.post('/github', (req, res) => {
-  if (req.body.payload == token) {
+  console.log(req)
+  let sig = "sha1=" + crypto.createHmac('sha1', token).update(chunk.toString()).digest('hex');
+  if (req.headers['x-hub-signature'] == sig) {
     res.sendStatus(200)
     exec('sh deploy.sh', (err, stdout, stderr) => {
       let dateTime = new Date().toLocaleString()
