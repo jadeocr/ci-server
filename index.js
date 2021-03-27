@@ -20,15 +20,13 @@ app.get('/', (req, res, next) => {
 
 app.post('/github', (req, res) => {
   if (req.body.payload == token) {
+    res.sendStatus(200)
     exec('sh deploy.sh', (err, stdout, stderr) => {
+      let dateTime = new Date().toLocaleString()
       if (err) {
-        console.log(err)
-        res.status(400).send('An error occurred')
-      } else if (stderr) {
-        console.log(stderr)
-        res.status(400).send('An error occurred')
+        console.log('Error', err, dateTime)
       } else {
-        res.sendStatus(200)
+        console.log('Successfully deployed', dateTime)
       }
     })
   } else {
