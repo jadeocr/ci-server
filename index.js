@@ -19,7 +19,7 @@ app.get('/', (req, res, next) => {
 })
 
 app.post('/github', (req, res) => {
-  if (req.body.token == token) {
+  if (req.body.payload == token) {
     exec('sh deploy.sh', (err, stdout, stderr) => {
       if (err) {
         console.log(err)
