@@ -13,7 +13,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "TOKEN=DEV_TOKEN nodemon index.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

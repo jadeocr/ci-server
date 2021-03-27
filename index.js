@@ -5,7 +5,11 @@ const bodyParser = require('body-parser');
 
 const app = express()
 const port = process.env.PORT || 4000
-const token = process.env.TOKEN || 'DEV_TOKEN'
+const token = process.env.TOKEN
+
+if (!token) {
+  process.exit(1)
+}
 
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] [:date]'))
 app.use(bodyParser.urlencoded({ extended: true }))
